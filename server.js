@@ -10,7 +10,17 @@ var bodyParser = require('body-parser');
 var routes = require('./routes/index');
 app.use(bodyParser.urlencoded(
     {extended : true})
-)
+);
+
+
+var mongoose = require('mongoose');
+mongoose.Promise = require('bluebird');
+global.dbHandel = require('./dataBase/dbHandel');
+global.db = mongoose.connect('mongodb://localhost:27017/school',{
+    useMongoClient : true
+}).then(function(db){
+    console.log('数据库链接成功');
+})
 
 
 //静态目录
@@ -27,6 +37,8 @@ app.use('/login',routes);
 app.use('/register',routes);
 app.use('/delete',routes);
 app.use('/update',routes);
+
+
 
 
 
