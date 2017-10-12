@@ -12,44 +12,100 @@ router.get('/',function(req,res){
 
 });
 
-router.get('/index',function(req,res){
-    console.log(req.query);
 
+//编辑
+router.get('/edit-user',function(req,res){
     var UsersModel = global.dbHandel.getModel('users');
-    UsersModel.findById({_id:req.query.id},function(err,docs){
-        console.log(docs);
-        res.render('index',{
-            id : docs._id,
-            name : docs.name,
-            password : docs.password
+    UsersModel.findById({_id:req.query.id},function(err,doc){
+        console.log(doc);
+        res.render('edit-user',{
+            title : '用户信息修改',
+            data : doc
         });
     });
 
 })
 
+//详情
+router.get('/user-detail',function(req,res){
+    console.log("id:"+req.query)
+    var UsersModel = global.dbHandel.getModel('users');
+    UsersModel.findById({_id:req.query.id},function(err,doc){
+        res.render('user-detail',{
+            title : '用户详情页',
+            data : doc
+        });
+});
+});
+
+//首页
+router.get('/home',function(req,res){
+    var UsersModel = global.dbHandel.getModel('users');
+    let count =0;
+    UsersModel.find({},function(err,docs){
+        for(let i = 0;i < docs.length; i++){
+            count += docs[i].balance;
+        }
+        res.render('home',{
+          list : docs,
+          count : count
+        });
+    });
+})
+router.get('/add-user',function(req,res){
+    res.render('add-user',{
+        title : '新增用户'
+    });
+})
+//新增
+router.post('/add',function(req,res){
+    var UsersModel = global.dbHandel.getModel('users');
+    UsersModel.create(req.body,function(err,doc){
+       if(!err && doc){
+           res.send({
+               code : '20000',
+               msg : '添加成功'
+           });
+       }
+    });
+})
 //删除
 router.post('/delete',function(req,res){
-    console.log(req.body);
-    request.del('http://localhost:3000/users/'+req.body.id,function(error,response,body){
-        console.log(body);
+    var UsersModel = global.dbHandel.getModel('users');
+
+    UsersModel.remove({_id:req.body.id},function(err,doc){
+        console.log(doc.length);
+        if(!err && !doc.length){
+            res.send({
+                code : '20000',
+                msg : '删除成功'
+            });
+        }
     });
 });
 
 //修改
-router.post('/update',function(req,res){
-    request.put('http://localhost:3000/users/'+req.body.id,{json:req.body},function(error,response,body){
-        console.log(body);
-    });
-});
+router.post('/edit',function(req,res){
+        var UsersModel = global.dbHandel.getModel('users');
+        console.log(req.body);
+        UsersModel.update({_id:req.body.id},req.body,function(err,doc){
+                 if(doc.ok > 0){
+                    res.send({
+                        code : '20000',
+                        msg : '修改成功'
+                    });
+                 }
+            });
+})
 
 
 //登录
 router.post('/login',function(req,res){
     // console.log(req.body);
 
-    var UsersModel = global.dbHandel.getModel('users');
+    var AccountsModel = global.dbHandel.getModel('accounts');
 
-    UsersModel.find({name:req.body.name,password:req.body.password},function(err,docs){
+    AccountsModel.find({email:req.body.email,password:req.body.password},function(err,docs){
        if(!err && docs.length > 0){
            res.send({
                code : '20000',

@@ -3,25 +3,62 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" href="../public/bootstrap.css">
+    <link rel="stylesheet" href="bootstrap.css">
+    <link rel="stylesheet" href="index.css">
+    <style>
+        body{
+            background-color:#ffffff;
+        }
+    </style>
 </head>
 <body>
-<form method="post">
-<p>ID：<input type="text" name="id" value="<%=id%>"></p>
-<p>姓名：<input type="text" name="name" value="<%=name%>"></p>
-<p>密码：<input type="text" name="password" value="<%=password%>"></p>
-    <button type="button" onclick="onDelete()">删除</button>
-    <button type="button" onclick="onUpdate()">修改</button>
-</form>
-<div></div>
-<div></div>
-<script src="jquery.js"></script>
-<script>
-function onDelete(){
-    $('form').attr('action','/delete').submit()
-}
-function onUpdate(){
-    $('form').attr('action','/update').submit()
-}
-</script>
+
+<% include header.html %>
+
+<div class="container tp-50">
+
+    <div class="row">
+        <div class="col-md-6">
+            <span>用户列表</span>
+        </div>
+        <div class="col-md-6">
+            <div class="pull-right">
+                <a href="/add-user">新增用户</a>
+                <span>收支总和 : <%= count%></span>
+            </div>
+        </div>
+    </div>
+
+    <table class="table">
+        <thead>
+            <th>ID</th>
+            <th>姓名</th>
+            <th>年龄</th>
+            <th>邮箱</th>
+            <th>电话</th>
+            <th>收支</th>
+            <th>详情</th>
+        </thead>
+        <tbody>
+        <% for(var i =0;i < list.length ; i++){%>
+            <tr>
+                <td><%=i+1%></td>
+                <td><%=list[i].name%></td>
+                <td><%=list[i].age%></td>
+                <td><%=list[i].email%></td>
+                <td><%=list[i].phone%></td>
+                <td><%=list[i].balance%></td>
+                <td>
+                    <a href="/user-detail?id=<%=list[i]._id%>" class="">
+                        详情
+                    </a>
+                </td>
+            </tr>
+        <%}%>
+        </tbody>
+    </table>
+
+</div>
 </body>
 </html>
