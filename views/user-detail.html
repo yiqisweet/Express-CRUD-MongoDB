@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title><%=title%></title>
+    <link rel="stylesheet" href="../public/bootstrap.css">
+    <link rel="stylesheet" href="bootstrap.css">
+    <link rel="stylesheet" href="index.css">
+    <style>
+        body{
+            background-color:#ffffff;
+        }
+    </style>
+</head>
+<body>
+
+<% include header.html %>
+<div class="container tp-50">
+
+    <div class="row">
+        <div class="col-md-6">
+            <a href="/home" class="btn">返回首页</a>
+        </div>
+        <div class="col-md-6">
+            <div class="pull-right">
+                <a href="/edit-user?id=<%=data.id%>">修改</a>
+                <button type="button" onclick="onDelete('<%=data.id%>')">删除</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>
+            用户信息
+        </h2>
+        <div class="card-header">
+           Id : <%=data._id %>
+        </div>
+        <div class="card-block">
+            姓名 : <%=data.name %>
+        </div>
+        <hr>
+        <ul class="list-group">
+            <li class="list-group-item">
+                年龄 : <%=data.age %>
+            </li>
+            <li class="list-group-item">
+                邮箱 : <%=data.email %>
+            </li>
+            <li class="list-group-item">
+                电话 : <%=data.phone %>
+            </li>
+            <li class="list-group-item">
+                收支 : <%=data.balance %>
+            </li>
+        </ul>
+    </div>
+
+</div>
+
+
+</body>
+<script src="jquery.js"></script>
+<script>
+    function onDelete(id){
+        console.log(1);
+        $.ajax({
+            url : '/delete',
+            type : 'post',
+            data : {
+                id : id
+            },
+            success:function(data){
+                if(data.code === '20000'){
+                    alert(data.msg);
+                    location.href = '/home'
+                }
+            }
+        })
+    }
+</script>
+</html>

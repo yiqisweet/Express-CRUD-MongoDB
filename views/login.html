@@ -3,32 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <title><%=title%></title>
+    <link rel="stylesheet" href="../public/bootstrap.css">
+    <link rel="stylesheet" href="bootstrap.css">
+    <link rel="stylesheet" href="index.css">
 </head>
 <body>
-login
-<div>
-    <input type="text" id="name">
-    <input type="text" name="" id="password">
-    <button onclick="login()">登录</button>
-</div>
-<a href="/register">去注册</a>
+
+<div class="container">
+
+    <form class="form-signin">
+        <h2 class="form-signin-heading">Please sign in</h2>
+        <label for="email" class="sr-only">邮箱</label>
+        <input type="email" id="email" class="form-control" placeholder="请输入邮箱" required autofocus>
+        <label for="password" class="sr-only">密码</label>
+        <input type="password" id="password" class="form-control" placeholder="请输入密码" required>
+        <div class="checkbox">
+            <label>
+                <input type="checkbox" value="remember-me"> Remember me
+            </label>
+        </div>
+        <button class="btn btn-lg btn-primary btn-block" type="button" onclick="login()">登录</button>
+    </form>
+
+</div> <!-- /container -->
 <script src="jquery.js"></script>
+<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 <script>
     function login(){
         console.log(1);
-        var name = $('#name').val(),
+        var email = $('#email').val(),
             password = $('#password').val();
         $.ajax({
             url:'/login',
             type:'post',
             data:{
-                name : name,
+                email : email,
                 password:password
             },
             success:function(res){
                 if(res.code === '20000'){
                     alert('登录成功');
-                    location.href='/index?id='+res.id
+                    location.href='/home'
                 }
             }
         })

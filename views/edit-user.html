@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title><%=title%></title>
+    <link rel="stylesheet" href="../public/bootstrap.css">
+    <link rel="stylesheet" href="bootstrap.css">
+    <link rel="stylesheet" href="index.css">
+    <style>
+        body{
+            background-color:#ffffff;
+        }
+    </style>
+</head>
+<body>
+
+<% include header.html %>
+
+<div class="container tp-50">
+
+    <div class="card">
+        <div class="card-block">
+                <div class="form-group">
+                    <label for="id">ID:</label>
+                    <input type="text" id="id" name="id" value="<%=data._id %>" disabled>
+                </div>
+            <div class="form-group">
+                <label for="name">姓名:</label>
+                <input type="text" id="name" name="name" value="<%=data.name%>">
+            </div>
+            <div class="form-group">
+                <label for="age">年龄:</label>
+                <input type="text" id="age" name="age" value="<%=data.age%>">
+            </div>
+            <div class="form-group">
+                <label for="email">邮箱:</label>
+                <input type="text" id="email" name="email" value="<%=data.email%>">
+            </div>
+            <div class="form-group">
+                <label for="phone">电话:</label>
+                <input type="text" id="phone" name="phone" value="<%=data.phone%>">
+            </div>
+            <div class="form-group">
+                <label for="balance">收支:</label>
+                <input type="text" id="balance" name="balance" value="<%=data.balance%>">
+            </div>
+                <button type="button" onclick="save()" class="btn">保存</button>
+        </div>
+    </div>
+</div>
+
+<script src="jquery.js"></script>
+<script>
+    function save(){
+        var id = $('#id').val(),
+            name = $('#name').val(),
+            age = $('#age').val(),
+            email = $('#email').val(),
+            phone = $('#phone').val(),
+            balance = $('#balance').val();
+
+        $.ajax({
+            url : '/edit',
+            type : 'post',
+            data : {
+                id : id,
+                name : name,
+                age : age,
+                email : email,
+                phone : phone,
+                balance : balance
+            },
+            success:function(data){
+                if(data.code === '20000'){
+                    alert(data.msg);
+                    location.href = '/home';
+                }
+            }
+        })
+    }
+</script>
+
+</body>
+</html>

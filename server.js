@@ -8,6 +8,7 @@ var path = require('path');
 var server = require('http').createServer(app);
 var bodyParser = require('body-parser');
 var routes = require('./routes/index');
+
 app.use(bodyParser.urlencoded(
     {extended : true})
 );
@@ -16,7 +17,7 @@ app.use(bodyParser.urlencoded(
 var mongoose = require('mongoose');
 mongoose.Promise = require('bluebird');
 global.dbHandel = require('./dataBase/dbHandel');
-global.db = mongoose.connect('mongodb://localhost:27017/school',{
+global.db = mongoose.connect('mongodb://localhost:27017/user-detail',{
     useMongoClient : true
 }).then(function(db){
     console.log('数据库链接成功');
